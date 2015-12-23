@@ -16,6 +16,7 @@ namespace CPA_Connectivity
         private string user = "hduser";
         private string port = "14000";
         private string url;
+        private string home = "testFile";
 
 
         // using default para Constructor 
@@ -24,7 +25,7 @@ namespace CPA_Connectivity
         }
 
         // using custom para Constructor
-        public CPA_Connection(string _host, string _user, string _port)
+        public CPA_Connection(string _host, string _user, string _port="14000")
         {
             this.host = _host;
             this.user = _user;
@@ -51,13 +52,33 @@ namespace CPA_Connectivity
             
 
         }
-
-        // list contens of the des dir
-        public string list_dir(string dirPath)
+        
+        // remove all file in the test dir.
+        public string remove_dir()
         {
 
-            string url = buildUploadURL(dirPath, "ls");
+            string url = buildUploadURL(this.home, "rm");
             Console.WriteLine(url);
+            WebClient client = new WebClient();
+            try
+            {
+                client.UploadString(url, "DELETE", "");
+                return "true";
+            }
+            catch (WebException ex)
+            {
+                var statusCode = ((HttpWebResponse)ex.Response).StatusCode;
+                return "false";
+            }
+
+        }
+
+
+        // list contens of the des dir
+        public string list_dir()
+        {
+
+            string url = buildUploadURL(this.home, "ls");
             WebClient client = new WebClient();
             try
             {
@@ -68,7 +89,6 @@ namespace CPA_Connectivity
             catch (WebException ex)
             {
                 var statusCode = ((HttpWebResponse)ex.Response).StatusCode;
-                Console.Write("An error occured, status code:" + statusCode);
                 return "false";
             }
             
@@ -84,15 +104,24 @@ namespace CPA_Connectivity
             
             switch (method) 
             { 
-                case "upload": 
-                    fileURL = "http://" + this.host + ":" + this.port + "/webhdfs/v1/user/" + this.user + "/" + outputFilePath;
+                case "upload":  // upload file method
+                    fileURL = "http://" + this.host + ":" + this.port + "/webhdfs/v1/user/" + this.user + "/" + this.home + "/" + outputFilePath;
                     config = "?user.name=" + this.user + "&op=CREATE&data=true";
                     break;
 
-                case "ls":
-                    fileURL = "http://" + this.host + ":" + this.port + "/webhdfs/v1/user/" + this.user + "/" + outputFilePath;
+                case "ls": // list dir method
+                    fileURL = "http://" + this.host + ":" + this.port + "/webhdfs/v1/user/" + this.user + "/" + this.home;
                     config = "?user.name=" + this.user + "&op=LISTSTATUS";
                     break;
+
+                case "rm": // delete method
+                    fileURL = "http://" + this.host + ":" + this.port + "/webhdfs/v1/user/" + this.user + "/" + this.home + "/";
+                    config = "?user.name=" + this.user + "&op=DELETE&recursive=true";
+                    break;
+
+                default:
+                    break;
+
             }
             
             return fileURL + config;

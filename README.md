@@ -1,4 +1,4 @@
-# hdfsCsharpConnectivity
+# HDFS C# Connectivity
 
 # Introduction
 a hdfs connectivity for C# using http reauest
@@ -8,5 +8,7 @@ a hdfs connectivity for C# using http reauest
 * using CPA_Connectivity
 * new a CPA_Connection object which has three method
 	* constructor(string _host, string _user, string _port="14000")
-	* bool upload(string inputFilePath, string outputFilePath): inputFilePath is local file path. outputFilePath is the hdfs path. (it can include dir/file. please see example.)
-	* string list_dir(string dirPath): dirPath is the hdfs dir path. it will response the status of this dir.
+	* bool upload(string inputFilePath, string outputFilePath): 
+	 	inputFilePath is local file path. outputFilePath is the hdfs path. (it can include dir/file. please see example.)
+	* string list_dir(): list the default test dir status
+	* string remove_dir(): remove all file in the default test dir.
