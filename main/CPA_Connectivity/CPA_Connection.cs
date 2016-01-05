@@ -17,7 +17,7 @@ namespace CPA_Connectivity
         private string port = "14000";
         private string url;
         private string home = "testFile";
-
+        private WebClient client = new WebClient();
 
         // using default para Constructor 
         public CPA_Connection(){
@@ -37,10 +37,11 @@ namespace CPA_Connectivity
         {
 
             this.url = buildUploadURL(outputFilePath, "upload");
-            WebClient client = new WebClient();
+            WebClient client = this.client;
             try
             {
                 client.UploadFile(url, "PUT", inputFilePath);
+                
                 return true;
             }
             catch (WebException ex)
@@ -59,7 +60,7 @@ namespace CPA_Connectivity
 
             string url = buildUploadURL(this.home, "rm");
             Console.WriteLine(url);
-            WebClient client = new WebClient();
+            WebClient client = this.client;
             try
             {
                 client.UploadString(url, "DELETE", "");
@@ -75,11 +76,16 @@ namespace CPA_Connectivity
 
 
         // list contens of the des dir
-        public string list_dir()
+        /*
+         * HttpFS can't load too manys data info.
+         * 
+         */
+ 
+      /*  public string list_dir()
         {
 
             string url = buildUploadURL(this.home, "ls");
-            WebClient client = new WebClient();
+            WebClient client = this.client;
             try
             {
                 Stream result = client.OpenRead(url);
@@ -93,7 +99,7 @@ namespace CPA_Connectivity
             }
             
 
-        }
+        } */
 
         // build the request url
         private string buildUploadURL(string outputFilePath, string method)

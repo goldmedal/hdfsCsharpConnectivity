@@ -31,16 +31,11 @@ namespace ConsoleApplication1
             /*   
              *  Steps of Upload File and Check 
              *   1. use upload method and asign inputDataURL, outputFileName
-             *   2. use list_dir method to check the uploading status.
              *   
              */
 
             bool test = conn.upload(inputDataPath, "test_filename2");  // step 1
             Console.WriteLine("The upload Result: " + test);
-            string result = conn.list_dir(); // step 2
-            Console.WriteLine("==============================");
-            Console.WriteLine("The List Result:");
-            Console.WriteLine(result);
             Console.WriteLine("Press any key to leave.");
             Console.ReadLine();  //pause
 
@@ -51,17 +46,11 @@ namespace ConsoleApplication1
             /*   
              *  Steps of Remove File and Check
              *   1. use remove_dir method to remove all file in test dir.
-             *   2. use list_dir method to check the uploading status.
              *   
              */
 
             string del_reult = conn.remove_dir();  // step 1
             Console.WriteLine("The delete Result: " + del_reult);
-            string result2 = conn.list_dir(); // step 2
-            Console.WriteLine("==============================");
-            Console.WriteLine("The List Result:");
-            Console.WriteLine(result2);
-            Console.WriteLine("Press any key to leave.");
             Console.ReadLine();  //pause
             #endregion
 
