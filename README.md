@@ -12,3 +12,5 @@ a hdfs connectivity for C# using http reauest
 	 	inputFilePath is local file path. outputFilePath is the hdfs path. (it can include dir/file. please see example.)
 	* string list_dir(): list the default test dir status
 	* string remove_dir(): remove all file in the default test dir.
+* you can check the sample code in hdfsCsharpConnectivity/example/hdfs_conn_example/Program.cs
+
