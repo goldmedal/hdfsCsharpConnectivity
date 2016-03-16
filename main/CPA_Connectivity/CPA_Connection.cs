@@ -53,9 +53,9 @@ namespace CPA_Connectivity
             
         }
 
-        public string append(string inputFilePath)
+        public string append(string inputFilePath, string outputFilePath)
         {
-            this.url = buildUploadURL("productionData.csv", "append");
+            this.url = buildUploadURL(outputFilePath, "append");
             var request = (HttpWebRequest)FileWebRequest.Create(this.url);
 
             request.Method = "POST";
