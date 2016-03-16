@@ -51,6 +51,32 @@ namespace CPA_Connectivity
                 return false;
             }
             
+        }
+
+        public string append(string inputFilePath)
+        {
+            this.url = buildUploadURL("productionData.csv", "append");
+            var request = (HttpWebRequest)FileWebRequest.Create(this.url);
+
+            request.Method = "POST";
+            request.ContentType = "application/octet-stream";
+            request.SendChunked = true;
+            Stream web = request.GetRequestStream();
+
+            try{
+
+                Stream input = File.OpenRead(inputFilePath);
+                input.CopyTo(web);
+                web.Close();
+                input.Close();
+
+            }catch(IOException ex)
+            {
+                Console.Write("An error occured, " + ex.ToString());
+            }
+
+            var response = (HttpWebResponse)request.GetResponse();
+            return response.ToString();
 
         }
         
@@ -123,6 +149,16 @@ namespace CPA_Connectivity
                 case "rm": // delete method
                     fileURL = "http://" + this.host + ":" + this.port + "/webhdfs/v1/user/" + this.user + "/" + this.home + "/";
                     config = "?user.name=" + this.user + "&op=DELETE&recursive=true";
+                    break;
+
+                case "append" : //append method
+                    fileURL = "http://" + this.host + ":" + this.port + "/webhdfs/v1/user/" + this.user + "/" + this.home + "/" + outputFilePath;
+                    config = "?user.name=" + this.user + "&op=APPEND&data=true";
+                    break;
+
+                case "filestatus":
+                    fileURL = "http://" + this.host + ":" + this.port + "/webhdfs/v1/user/" + this.user + "/" + this.home + "/";
+                    config = "?user.name=" + this.user + "&op=GETFILESTATUS";
                     break;
 
                 default:
